@@ -76,19 +76,19 @@ function configure() {
     cd ..
 }
 
-for arch in i386 x86_64; do
+for arch in  x86_64; do
     configure "osx-${arch}" "${mac}" "${arch}" "-mmacosx-version-min=10.6" \
         false "-I../readline.osx" "-L../readline.osx" "" \
         --with-python=/usr/bin/python-config
 done
 
-for arch in i386 x86_64; do
+for arch in  x86_64; do
     configure "sim-${arch}" iphonesimulator "${arch}" "-mios-simulator-version-min=4.0" \
         true "" "" "-fobjc-abi-version=2 -fobjc-legacy-dispatch" \
         --disable-console
 done
 
-for arch in armv6 armv7 armv7s arm64; do
+for arch in arm64; do
     cpf=""
     ldf=""
 

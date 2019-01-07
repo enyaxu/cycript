@@ -21,7 +21,7 @@
 
 set -e
 
-arch="-arch i386 -arch x86_64"
+arch="-arch x86_64"
 
 rm -rf readline.osx
 mkdir readline.osx
