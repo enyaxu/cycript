@@ -42,7 +42,7 @@ LT_INIT([disable-static])
 
 AC_LANG([C++])
 
-AX_CXX_COMPILE_STDCXX_11([ext], [mandatory])
+AX_CXX_COMPILE_STDCXX_11([noext], [mandatory])
 OBJCXXFLAGS="${OBJCXXFLAGS} ${CXXFLAGS##*' '}"
 
 PKG_PROG_PKG_CONFIG([0.22])
@@ -132,6 +132,7 @@ CY_TEST_FLAG([-Wno-overloaded-virtual])
 CY_TEST_FLAG([-Wno-parentheses])
 CY_TEST_FLAG([-Wno-tautological-undefined-compare])
 CY_TEST_FLAG([-Wno-unneeded-internal-declaration])
+CY_TEST_FLAG([-Wno-inconsistent-missing-override])
 
 AX_PTHREAD
 

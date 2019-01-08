@@ -133,7 +133,7 @@ CLEANFILES += Class
 Class/Cycript.class: Java/Cycript.java
 	rm -rf Class; mkdir Class; javac -g -Xlint:unchecked -source 1.5 -target 1.5 -d Class -sourcepath $(srcdir)/Java $<
 Class/classes.dex: Class/Cycript.class
-	cd Class; dx --dex --output=../$@ *.class
+	cd Class; /Users/xujian/Library/Android/sdk/build-tools/28.0.3/dx --dex --output=../$@ *.class
 
 CLEANFILES += libcycript.jar
 libcycript.jar: Class/classes.dex Class/Cycript.class

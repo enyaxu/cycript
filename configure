@@ -763,7 +763,6 @@ am__nodep
 AMDEPBACKSLASH
 AMDEP_FALSE
 AMDEP_TRUE
-am__quote
 am__include
 DEPDIR
 OBJEXT
@@ -840,7 +839,8 @@ PACKAGE_VERSION
 PACKAGE_TARNAME
 PACKAGE_NAME
 PATH_SEPARATOR
-SHELL'
+SHELL
+am__quote'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
@@ -2678,7 +2678,7 @@ ac_configure="$SHELL $ac_aux_dir/configure"  # Please don't use this var.
 ac_config_headers="$ac_config_headers config.h"
 
 
-am__api_version='1.15'
+am__api_version='1.16'
 
 # Find a good install program.  We prefer a C program (faster),
 # so one script is as good as another.  But avoid the broken or
@@ -3194,8 +3194,8 @@ MAKEINFO=${MAKEINFO-"${am_missing_run}makeinfo"}
 
 # For better backward compatibility.  To be removed once Automake 1.9.x
 # dies out for good.  For more background, see:
-# <http://lists.gnu.org/archive/html/automake/2012-07/msg00001.html>
-# <http://lists.gnu.org/archive/html/automake/2012-07/msg00014.html>
+# <https://lists.gnu.org/archive/html/automake/2012-07/msg00001.html>
+# <https://lists.gnu.org/archive/html/automake/2012-07/msg00014.html>
 mkdir_p='$(MKDIR_P)'
 
 # We need awk for the "check" target (and possibly the TAP driver).  The
@@ -3246,7 +3246,7 @@ END
 Aborting the configuration process, to ensure you take notice of the issue.
 
 You can download and install GNU coreutils to get an 'rm' implementation
-that behaves properly: <http://www.gnu.org/software/coreutils/>.
+that behaves properly: <https://www.gnu.org/software/coreutils/>.
 
 If you want to complete the configuration process using your problematic
 'rm' anyway, export the environment variable ACCEPT_INFERIOR_RM_PROGRAM
@@ -4132,45 +4132,45 @@ DEPDIR="${am__leading_dot}deps"
 
 ac_config_commands="$ac_config_commands depfiles"
 
-
-am_make=${MAKE-make}
-cat > confinc << 'END'
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether ${MAKE-make} supports the include directive" >&5
+$as_echo_n "checking whether ${MAKE-make} supports the include directive... " >&6; }
+cat > confinc.mk << 'END'
 am__doit:
-	@echo this is the am__doit target
+	@echo this is the am__doit target >confinc.out
 .PHONY: am__doit
 END
-# If we don't find an include directive, just comment out the code.
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for style of include used by $am_make" >&5
-$as_echo_n "checking for style of include used by $am_make... " >&6; }
 am__include="#"
 am__quote=
-_am_result=none
-# First try GNU make style include.
-echo "include confinc" > confmf
-# Ignore all kinds of additional output from 'make'.
-case `$am_make -s -f confmf 2> /dev/null` in #(
-*the\ am__doit\ target*)
-  am__include=include
-  am__quote=
-  _am_result=GNU
-  ;;
-esac
-# Now try BSD make style include.
-if test "$am__include" = "#"; then
-   echo '.include "confinc"' > confmf
-   case `$am_make -s -f confmf 2> /dev/null` in #(
-   *the\ am__doit\ target*)
-     am__include=.include
-     am__quote="\""
-     _am_result=BSD
+# BSD make does it like this.
+echo '.include "confinc.mk" # ignored' > confmf.BSD
+# Other make implementations (GNU, Solaris 10, AIX) do it like this.
+echo 'include confinc.mk # ignored' > confmf.GNU
+_am_result=no
+for s in GNU BSD; do
+  { echo "$as_me:$LINENO: ${MAKE-make} -f confmf.$s && cat confinc.out" >&5
+   (${MAKE-make} -f confmf.$s && cat confinc.out) >&5 2>&5
+   ac_status=$?
+   echo "$as_me:$LINENO: \$? = $ac_status" >&5
+   (exit $ac_status); }
+  case $?:`cat confinc.out 2>/dev/null` in #(
+  '0:this is the am__doit target') :
+    case $s in #(
+  BSD) :
+    am__include='.include' am__quote='"' ;; #(
+  *) :
+    am__include='include' am__quote='' ;;
+esac ;; #(
+  *) :
      ;;
-   esac
-fi
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $_am_result" >&5
-$as_echo "$_am_result" >&6; }
-rm -f confinc confmf
+esac
+  if test "$am__include" != "#"; then
+    _am_result="yes ($s style)"
+    break
+  fi
+done
+rm -f confinc.* confmf.*
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: ${_am_result}" >&5
+$as_echo "${_am_result}" >&6; }
 
 # Check whether --enable-dependency-tracking was given.
 if test "${enable_dependency_tracking+set}" = set; then :
@@ -7716,7 +7716,7 @@ else
   if $GREP 'External.*some_variable' conftest.out > /dev/null; then
     lt_cv_nm_interface="MS dumpbin"
   fi
-  rm -rf conftest*
+  rm -f conftest*
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $lt_cv_nm_interface" >&5
 $as_echo "$lt_cv_nm_interface" >&6; }
@@ -9090,7 +9090,7 @@ for ac_symprfx in "" "_"; do
   # Check to see that the pipe works correctly.
   pipe_works=no
 
-  rm -rf conftest*
+  rm -f conftest*
   cat > conftest.$ac_ext <<_LT_EOF
 #ifdef __cplusplus
 extern "C" {
@@ -9753,7 +9753,7 @@ else
   if $GREP 'Manifest Tool' conftest.out > /dev/null; then
     lt_cv_path_mainfest_tool=yes
   fi
-  rm -rf conftest*
+  rm -f conftest*
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $lt_cv_path_mainfest_tool" >&5
 $as_echo "$lt_cv_path_mainfest_tool" >&6; }
@@ -11079,7 +11079,7 @@ ac_outfile=conftest.$ac_objext
 echo "$lt_simple_compile_test_code" >conftest.$ac_ext
 eval "$ac_compile" 2>&1 >/dev/null | $SED '/^$/d; /^ *+/d' >conftest.err
 _lt_compiler_boilerplate=`cat conftest.err`
-$RM -r conftest*
+$RM conftest*
 
 ac_outfile=conftest.$ac_objext
 echo "$lt_simple_link_test_code" >conftest.$ac_ext
@@ -11136,7 +11136,7 @@ else
        lt_cv_prog_compiler_rtti_exceptions=yes
      fi
    fi
-   $RM -r conftest*
+   $RM conftest*
 
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $lt_cv_prog_compiler_rtti_exceptions" >&5
@@ -11544,7 +11544,7 @@ else
        lt_cv_prog_compiler_pic_works=yes
      fi
    fi
-   $RM -r conftest*
+   $RM conftest*
 
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $lt_cv_prog_compiler_pic_works" >&5
@@ -11656,14 +11656,14 @@ else
      fi
    fi
    chmod u+w . 2>&5
-   $RM -r conftest*
+   $RM conftest*
    # SGI C++ compiler will create directory out/ii_files/ for
    # template instantiation
    test -d out/ii_files && $RM out/ii_files/* && rmdir out/ii_files
    $RM out/* && rmdir out
    cd ..
    $RM -r conftest
-   $RM -r conftest*
+   $RM conftest*
 
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $lt_cv_prog_compiler_c_o" >&5
@@ -11711,14 +11711,14 @@ else
      fi
    fi
    chmod u+w . 2>&5
-   $RM -r conftest*
+   $RM conftest*
    # SGI C++ compiler will create directory out/ii_files/ for
    # template instantiation
    test -d out/ii_files && $RM out/ii_files/* && rmdir out/ii_files
    $RM out/* && rmdir out
    cd ..
    $RM -r conftest
-   $RM -r conftest*
+   $RM conftest*
 
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $lt_cv_prog_compiler_c_o" >&5
@@ -11733,7 +11733,7 @@ if test no = "$lt_cv_prog_compiler_c_o" && test no != "$need_locks"; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking if we can lock with hard links" >&5
 $as_echo_n "checking if we can lock with hard links... " >&6; }
   hard_links=yes
-  $RM -r conftest*
+  $RM conftest*
   ln conftest.a conftest.b 2>/dev/null && hard_links=no
   touch conftest.a
   ln conftest.a conftest.b 2>&5 || hard_links=no
@@ -13055,7 +13055,7 @@ $as_echo_n "checking whether -lc should be explicitly linked in... " >&6; }
 if ${lt_cv_archive_cmds_need_lc+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  $RM -r conftest*
+  $RM conftest*
 	echo "$lt_simple_compile_test_code" > conftest.$ac_ext
 
 	if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_compile\""; } >&5
@@ -13090,7 +13090,7 @@ else
 	else
 	  cat conftest.err 1>&5
 	fi
-	$RM -r conftest*
+	$RM conftest*
 
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $lt_cv_archive_cmds_need_lc" >&5
@@ -15068,7 +15068,7 @@ compiler=$CC
 echo "$lt_simple_compile_test_code" >conftest.$ac_ext
 eval "$ac_compile" 2>&1 >/dev/null | $SED '/^$/d; /^ *+/d' >conftest.err
 _lt_compiler_boilerplate=`cat conftest.err`
-$RM -r conftest*
+$RM conftest*
 
   ac_outfile=conftest.$ac_objext
 echo "$lt_simple_link_test_code" >conftest.$ac_ext
@@ -16912,7 +16912,7 @@ else
        lt_cv_prog_compiler_pic_works_CXX=yes
      fi
    fi
-   $RM -r conftest*
+   $RM conftest*
 
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $lt_cv_prog_compiler_pic_works_CXX" >&5
@@ -17015,14 +17015,14 @@ else
      fi
    fi
    chmod u+w . 2>&5
-   $RM -r conftest*
+   $RM conftest*
    # SGI C++ compiler will create directory out/ii_files/ for
    # template instantiation
    test -d out/ii_files && $RM out/ii_files/* && rmdir out/ii_files
    $RM out/* && rmdir out
    cd ..
    $RM -r conftest
-   $RM -r conftest*
+   $RM conftest*
 
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $lt_cv_prog_compiler_c_o_CXX" >&5
@@ -17067,14 +17067,14 @@ else
      fi
    fi
    chmod u+w . 2>&5
-   $RM -r conftest*
+   $RM conftest*
    # SGI C++ compiler will create directory out/ii_files/ for
    # template instantiation
    test -d out/ii_files && $RM out/ii_files/* && rmdir out/ii_files
    $RM out/* && rmdir out
    cd ..
    $RM -r conftest
-   $RM -r conftest*
+   $RM conftest*
 
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $lt_cv_prog_compiler_c_o_CXX" >&5
@@ -17089,7 +17089,7 @@ if test no = "$lt_cv_prog_compiler_c_o_CXX" && test no != "$need_locks"; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking if we can lock with hard links" >&5
 $as_echo_n "checking if we can lock with hard links... " >&6; }
   hard_links=yes
-  $RM -r conftest*
+  $RM conftest*
   ln conftest.a conftest.b 2>/dev/null && hard_links=no
   touch conftest.a
   ln conftest.a conftest.b 2>&5 || hard_links=no
@@ -17180,7 +17180,7 @@ $as_echo_n "checking whether -lc should be explicitly linked in... " >&6; }
 if ${lt_cv_archive_cmds_need_lc_CXX+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  $RM -r conftest*
+  $RM conftest*
 	echo "$lt_simple_compile_test_code" > conftest.$ac_ext
 
 	if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_compile\""; } >&5
@@ -17215,7 +17215,7 @@ else
 	else
 	  cat conftest.err 1>&5
 	fi
-	$RM -r conftest*
+	$RM conftest*
 
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $lt_cv_archive_cmds_need_lc_CXX" >&5
@@ -18246,8 +18246,10 @@ $as_echo "$ax_cv_cxx_compile_cxx11" >&6; }
     ac_success=yes
   fi
 
+
+
     if test x$ac_success = xno; then
-    for switch in -std=gnu++11 -std=gnu++0x; do
+    for switch in -std=c++11 -std=c++0x; do
       cachevar=`$as_echo "ax_cv_cxx_compile_cxx11_$switch" | $as_tr_sh`
       { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether $CXX supports C++11 features with $switch" >&5
 $as_echo_n "checking whether $CXX supports C++11 features with $switch... " >&6; }
@@ -18303,8 +18305,6 @@ $as_echo "$ac_res" >&6; }
       fi
     done
   fi
-
-
   ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -18938,26 +18938,36 @@ $as_echo "$ac_cv_cflags_warn_all" >&6; }
 case ".$ac_cv_cflags_warn_all" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
-   *) if ${CFLAGS+:} false; then :
-  case " $CFLAGS " in
-    *" $ac_cv_cflags_warn_all "*)
-      { { $as_echo "$as_me:${as_lineno-$LINENO}: : CFLAGS already contains \$ac_cv_cflags_warn_all"; } >&5
+   *)
+if ${CFLAGS+:} false; then :
+
+  case " $CFLAGS " in #(
+  *" $ac_cv_cflags_warn_all "*) :
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: : CFLAGS already contains \$ac_cv_cflags_warn_all"; } >&5
   (: CFLAGS already contains $ac_cv_cflags_warn_all) 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }
-      ;;
-    *)
-      { { $as_echo "$as_me:${as_lineno-$LINENO}: : CFLAGS=\"\$CFLAGS \$ac_cv_cflags_warn_all\""; } >&5
-  (: CFLAGS="$CFLAGS $ac_cv_cflags_warn_all") 2>&5
+  test $ac_status = 0; } ;; #(
+  *) :
+
+     as_fn_append CFLAGS " $ac_cv_cflags_warn_all"
+     { { $as_echo "$as_me:${as_lineno-$LINENO}: : CFLAGS=\"\$CFLAGS\""; } >&5
+  (: CFLAGS="$CFLAGS") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-      CFLAGS="$CFLAGS $ac_cv_cflags_warn_all"
-      ;;
-   esac
+     ;;
+esac
+
 else
-  CFLAGS="$ac_cv_cflags_warn_all"
+
+  CFLAGS=$ac_cv_cflags_warn_all
+  { { $as_echo "$as_me:${as_lineno-$LINENO}: : CFLAGS=\"\$CFLAGS\""; } >&5
+  (: CFLAGS="$CFLAGS") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+
 fi
  ;;
 esac
@@ -19010,26 +19020,36 @@ $as_echo "$ac_cv_cxxflags_warn_all" >&6; }
 case ".$ac_cv_cxxflags_warn_all" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
-   *) if ${CXXFLAGS+:} false; then :
-  case " $CXXFLAGS " in
-    *" $ac_cv_cxxflags_warn_all "*)
-      { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS already contains \$ac_cv_cxxflags_warn_all"; } >&5
+   *)
+if ${CXXFLAGS+:} false; then :
+
+  case " $CXXFLAGS " in #(
+  *" $ac_cv_cxxflags_warn_all "*) :
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS already contains \$ac_cv_cxxflags_warn_all"; } >&5
   (: CXXFLAGS already contains $ac_cv_cxxflags_warn_all) 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }
-      ;;
-    *)
-      { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_warn_all\""; } >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all") 2>&5
+  test $ac_status = 0; } ;; #(
+  *) :
+
+     as_fn_append CXXFLAGS " $ac_cv_cxxflags_warn_all"
+     { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all"
-      ;;
-   esac
+     ;;
+esac
+
 else
-  CXXFLAGS="$ac_cv_cxxflags_warn_all"
+
+  CXXFLAGS=$ac_cv_cxxflags_warn_all
+  { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+
 fi
  ;;
 esac
@@ -19076,26 +19096,36 @@ $as_echo "$ac_cv_cxxflags_warn_all" >&6; }
 case ".$ac_cv_cxxflags_warn_all" in
      .ok|.ok,*)  ;;
    .|.no|.no,*)  ;;
-   *) if ${CXXFLAGS+:} false; then :
-  case " $CXXFLAGS " in
-    *" $ac_cv_cxxflags_warn_all "*)
-      { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS already contains \$ac_cv_cxxflags_warn_all"; } >&5
+   *)
+if ${CXXFLAGS+:} false; then :
+
+  case " $CXXFLAGS " in #(
+  *" $ac_cv_cxxflags_warn_all "*) :
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS already contains \$ac_cv_cxxflags_warn_all"; } >&5
   (: CXXFLAGS already contains $ac_cv_cxxflags_warn_all) 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }
-      ;;
-    *)
-      { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS \$ac_cv_cxxflags_warn_all\""; } >&5
-  (: CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all") 2>&5
+  test $ac_status = 0; } ;; #(
+  *) :
+
+     as_fn_append CXXFLAGS " $ac_cv_cxxflags_warn_all"
+     { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }
-      CXXFLAGS="$CXXFLAGS $ac_cv_cxxflags_warn_all"
-      ;;
-   esac
+     ;;
+esac
+
 else
-  CXXFLAGS="$ac_cv_cxxflags_warn_all"
+
+  CXXFLAGS=$ac_cv_cxxflags_warn_all
+  { { $as_echo "$as_me:${as_lineno-$LINENO}: : CXXFLAGS=\"\$CXXFLAGS\""; } >&5
+  (: CXXFLAGS="$CXXFLAGS") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }
+
 fi
  ;;
 esac
@@ -21186,6 +21216,266 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 
+    ac_ext=c
+ac_cpp='$CPP $CPPFLAGS'
+ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_c_compiler_gnu
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for cc -Wno-inconsistent-missing-override" >&5
+$as_echo_n "checking for cc -Wno-inconsistent-missing-override... " >&6; }
+
+    cy_save=$CFLAGS
+
+  for element in -Wno-inconsistent-missing-override; do
+    haveit=
+    for x in $CFLAGS; do
+
+  acl_save_prefix="$prefix"
+  prefix="$acl_final_prefix"
+  acl_save_exec_prefix="$exec_prefix"
+  exec_prefix="$acl_final_exec_prefix"
+  eval x=\"$x\"
+  exec_prefix="$acl_save_exec_prefix"
+  prefix="$acl_save_prefix"
+
+      if test "X$x" = "X$element"; then
+        haveit=yes
+        break
+      fi
+    done
+    if test -z "$haveit"; then
+      CFLAGS="${CFLAGS}${CFLAGS:+ }$element"
+    fi
+  done
+
+
+        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  cy_good=1
+else
+  cy_good=0
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+    CFLAGS=$cy_save
+    if test "x$cy_good" = x1; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+  for element in -Wno-inconsistent-missing-override; do
+    haveit=
+    for x in $CFLAGS; do
+
+  acl_save_prefix="$prefix"
+  prefix="$acl_final_prefix"
+  acl_save_exec_prefix="$exec_prefix"
+  exec_prefix="$acl_final_exec_prefix"
+  eval x=\"$x\"
+  exec_prefix="$acl_save_exec_prefix"
+  prefix="$acl_save_prefix"
+
+      if test "X$x" = "X$element"; then
+        haveit=yes
+        break
+      fi
+    done
+    if test -z "$haveit"; then
+      CFLAGS="${CFLAGS}${CFLAGS:+ }$element"
+    fi
+  done
+
+
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+    ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+
+    ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for c++ -Wno-inconsistent-missing-override" >&5
+$as_echo_n "checking for c++ -Wno-inconsistent-missing-override... " >&6; }
+
+    cy_save=$CXXFLAGS
+
+  for element in -Wno-inconsistent-missing-override; do
+    haveit=
+    for x in $CXXFLAGS; do
+
+  acl_save_prefix="$prefix"
+  prefix="$acl_final_prefix"
+  acl_save_exec_prefix="$exec_prefix"
+  exec_prefix="$acl_final_exec_prefix"
+  eval x=\"$x\"
+  exec_prefix="$acl_save_exec_prefix"
+  prefix="$acl_save_prefix"
+
+      if test "X$x" = "X$element"; then
+        haveit=yes
+        break
+      fi
+    done
+    if test -z "$haveit"; then
+      CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }$element"
+    fi
+  done
+
+
+        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+_ACEOF
+if ac_fn_cxx_try_compile "$LINENO"; then :
+  cy_good=1
+else
+  cy_good=0
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+    CXXFLAGS=$cy_save
+    if test "x$cy_good" = x1; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+  for element in -Wno-inconsistent-missing-override; do
+    haveit=
+    for x in $CXXFLAGS; do
+
+  acl_save_prefix="$prefix"
+  prefix="$acl_final_prefix"
+  acl_save_exec_prefix="$exec_prefix"
+  exec_prefix="$acl_final_exec_prefix"
+  eval x=\"$x\"
+  exec_prefix="$acl_save_exec_prefix"
+  prefix="$acl_save_prefix"
+
+      if test "X$x" = "X$element"; then
+        haveit=yes
+        break
+      fi
+    done
+    if test -z "$haveit"; then
+      CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }$element"
+    fi
+  done
+
+
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+    ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+
+    ac_ext=mm
+ac_cpp='$OBJCXXCPP $CPPFLAGS'
+ac_compile='$OBJCXX -c $OBJCXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$OBJCXX -o conftest$ac_exeext $OBJCXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_objcxx_compiler_gnu
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for c++ -ObjC -Wno-inconsistent-missing-override" >&5
+$as_echo_n "checking for c++ -ObjC -Wno-inconsistent-missing-override... " >&6; }
+
+    cy_save=$OBJCXXFLAGS
+
+  for element in -Wno-inconsistent-missing-override; do
+    haveit=
+    for x in $OBJCXXFLAGS; do
+
+  acl_save_prefix="$prefix"
+  prefix="$acl_final_prefix"
+  acl_save_exec_prefix="$exec_prefix"
+  exec_prefix="$acl_final_exec_prefix"
+  eval x=\"$x\"
+  exec_prefix="$acl_save_exec_prefix"
+  prefix="$acl_save_prefix"
+
+      if test "X$x" = "X$element"; then
+        haveit=yes
+        break
+      fi
+    done
+    if test -z "$haveit"; then
+      OBJCXXFLAGS="${OBJCXXFLAGS}${OBJCXXFLAGS:+ }$element"
+    fi
+  done
+
+
+        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+_ACEOF
+if ac_fn_objcxx_try_compile "$LINENO"; then :
+  cy_good=1
+else
+  cy_good=0
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
+    OBJCXXFLAGS=$cy_save
+    if test "x$cy_good" = x1; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+  for element in -Wno-inconsistent-missing-override; do
+    haveit=
+    for x in $OBJCXXFLAGS; do
+
+  acl_save_prefix="$prefix"
+  prefix="$acl_final_prefix"
+  acl_save_exec_prefix="$exec_prefix"
+  exec_prefix="$acl_final_exec_prefix"
+  eval x=\"$x\"
+  exec_prefix="$acl_save_exec_prefix"
+  prefix="$acl_save_prefix"
+
+      if test "X$x" = "X$element"; then
+        haveit=yes
+        break
+      fi
+    done
+    if test -z "$haveit"; then
+      OBJCXXFLAGS="${OBJCXXFLAGS}${OBJCXXFLAGS:+ }$element"
+    fi
+  done
+
+
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+    ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+
+
+
 
 
 ac_ext=c
@@ -21846,8 +22136,8 @@ else
         for cy_webkit_pkg in "javascriptcoregtk-4.0"; do
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for WEBKIT" >&5
-$as_echo_n "checking for WEBKIT... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $cy_webkit_pkg" >&5
+$as_echo_n "checking for $cy_webkit_pkg... " >&6; }
 
 if test -n "$WEBKIT_CFLAGS"; then
     pkg_cv_WEBKIT_CFLAGS="$WEBKIT_CFLAGS"
@@ -21887,7 +22177,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -21905,7 +22195,7 @@ fi
 
 	:
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	:
 else
@@ -22115,8 +22405,8 @@ else
         for cy_webkit_pkg in "javascriptcoregtk-4.0"; do
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for WEBKIT" >&5
-$as_echo_n "checking for WEBKIT... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $cy_webkit_pkg" >&5
+$as_echo_n "checking for $cy_webkit_pkg... " >&6; }
 
 if test -n "$WEBKIT_CFLAGS"; then
     pkg_cv_WEBKIT_CFLAGS="$WEBKIT_CFLAGS"
@@ -22156,7 +22446,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -22174,7 +22464,7 @@ fi
 
 	:
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	:
 else
@@ -22384,8 +22674,8 @@ else
         for cy_webkit_pkg in "javascriptcoregtk-4.0"; do
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for WEBKIT" >&5
-$as_echo_n "checking for WEBKIT... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $cy_webkit_pkg" >&5
+$as_echo_n "checking for $cy_webkit_pkg... " >&6; }
 
 if test -n "$WEBKIT_CFLAGS"; then
     pkg_cv_WEBKIT_CFLAGS="$WEBKIT_CFLAGS"
@@ -22425,7 +22715,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -22443,7 +22733,7 @@ fi
 
 	:
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	:
 else
@@ -22737,8 +23027,8 @@ done
 
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for LIBFFI" >&5
-$as_echo_n "checking for LIBFFI... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for libffi" >&5
+$as_echo_n "checking for libffi... " >&6; }
 
 if test -n "$LIBFFI_CFLAGS"; then
     pkg_cv_LIBFFI_CFLAGS="$LIBFFI_CFLAGS"
@@ -22778,7 +23068,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -22796,7 +23086,7 @@ fi
 
 	as_fn_error $? "missing \"libffi\"" "$LINENO" 5
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	as_fn_error $? "missing \"libffi\"" "$LINENO" 5
 else
@@ -22917,8 +23207,8 @@ fi
 
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for LIBFFI" >&5
-$as_echo_n "checking for LIBFFI... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for libffi" >&5
+$as_echo_n "checking for libffi... " >&6; }
 
 if test -n "$LIBFFI_CFLAGS"; then
     pkg_cv_LIBFFI_CFLAGS="$LIBFFI_CFLAGS"
@@ -22958,7 +23248,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -22976,7 +23266,7 @@ fi
 
 	as_fn_error $? "missing \"libffi\"" "$LINENO" 5
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	as_fn_error $? "missing \"libffi\"" "$LINENO" 5
 else
@@ -23149,8 +23439,8 @@ fi
     LIBS=
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for LIBRUBY21" >&5
-$as_echo_n "checking for LIBRUBY21... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for ruby-2.1" >&5
+$as_echo_n "checking for ruby-2.1... " >&6; }
 
 if test -n "$LIBRUBY21_CFLAGS"; then
     pkg_cv_LIBRUBY21_CFLAGS="$LIBRUBY21_CFLAGS"
@@ -23190,7 +23480,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -23352,7 +23642,7 @@ done
 
 fi
 elif test $pkg_failed = untried; then
-     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 			{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for framework Ruby" >&5
@@ -25012,7 +25302,7 @@ cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1
 #
 # INIT-COMMANDS
 #
-AMDEP_TRUE="$AMDEP_TRUE" ac_aux_dir="$ac_aux_dir"
+AMDEP_TRUE="$AMDEP_TRUE" MAKE="${MAKE-make}"
 
 
 # The HP-UX ksh and POSIX shell print the target directory to stdout
@@ -26006,29 +26296,35 @@ $as_echo "$as_me: executing $ac_file commands" >&6;}
   # Older Autoconf quotes --file arguments for eval, but not when files
   # are listed without --file.  Let's play safe and only enable the eval
   # if we detect the quoting.
-  case $CONFIG_FILES in
-  *\'*) eval set x "$CONFIG_FILES" ;;
-  *)   set x $CONFIG_FILES ;;
-  esac
+  # TODO: see whether this extra hack can be removed once we start
+  # requiring Autoconf 2.70 or later.
+  case $CONFIG_FILES in #(
+  *\'*) :
+    eval set x "$CONFIG_FILES" ;; #(
+  *) :
+    set x $CONFIG_FILES ;; #(
+  *) :
+     ;;
+esac
   shift
-  for mf
+  # Used to flag and report bootstrapping failures.
+  am_rc=0
+  for am_mf
   do
     # Strip MF so we end up with the name of the file.
-    mf=`echo "$mf" | sed -e 's/:.*$//'`
-    # Check whether this is an Automake generated Makefile or not.
-    # We used to match only the files named 'Makefile.in', but
-    # some people rename them; so instead we look at the file content.
-    # Grep'ing the first line is not enough: some people post-process
-    # each Makefile.in and add a new line on top of each file to say so.
-    # Grep'ing the whole file is not good either: AIX grep has a line
+    am_mf=`$as_echo "$am_mf" | sed -e 's/:.*$//'`
+    # Check whether this is an Automake generated Makefile which includes
+    # dependency-tracking related rules and includes.
+    # Grep'ing the whole file directly is not great: AIX grep has a line
     # limit of 2048, but all sed's we know have understand at least 4000.
-    if sed -n 's,^#.*generated by automake.*,X,p' "$mf" | grep X >/dev/null 2>&1; then
-      dirpart=`$as_dirname -- "$mf" ||
-$as_expr X"$mf" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-	 X"$mf" : 'X\(//\)[^/]' \| \
-	 X"$mf" : 'X\(//\)$' \| \
-	 X"$mf" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X"$mf" |
+    sed -n 's,^am--depfiles:.*,X,p' "$am_mf" | grep X >/dev/null 2>&1 \
+      || continue
+    am_dirpart=`$as_dirname -- "$am_mf" ||
+$as_expr X"$am_mf" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
+	 X"$am_mf" : 'X\(//\)[^/]' \| \
+	 X"$am_mf" : 'X\(//\)$' \| \
+	 X"$am_mf" : 'X\(/\)' \| . 2>/dev/null ||
+$as_echo X"$am_mf" |
     sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
 	    s//\1/
 	    q
@@ -26046,53 +26342,48 @@ $as_echo X"$mf" |
 	    q
 	  }
 	  s/.*/./; q'`
-    else
-      continue
-    fi
-    # Extract the definition of DEPDIR, am__include, and am__quote
-    # from the Makefile without running 'make'.
-    DEPDIR=`sed -n 's/^DEPDIR = //p' < "$mf"`
-    test -z "$DEPDIR" && continue
-    am__include=`sed -n 's/^am__include = //p' < "$mf"`
-    test -z "$am__include" && continue
-    am__quote=`sed -n 's/^am__quote = //p' < "$mf"`
-    # Find all dependency output files, they are included files with
-    # $(DEPDIR) in their names.  We invoke sed twice because it is the
-    # simplest approach to changing $(DEPDIR) to its actual value in the
-    # expansion.
-    for file in `sed -n "
-      s/^$am__include $am__quote\(.*(DEPDIR).*\)$am__quote"'$/\1/p' <"$mf" | \
-	 sed -e 's/\$(DEPDIR)/'"$DEPDIR"'/g'`; do
-      # Make sure the directory exists.
-      test -f "$dirpart/$file" && continue
-      fdir=`$as_dirname -- "$file" ||
-$as_expr X"$file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \
-	 X"$file" : 'X\(//\)[^/]' \| \
-	 X"$file" : 'X\(//\)$' \| \
-	 X"$file" : 'X\(/\)' \| . 2>/dev/null ||
-$as_echo X"$file" |
-    sed '/^X\(.*[^/]\)\/\/*[^/][^/]*\/*$/{
+    am_filepart=`$as_basename -- "$am_mf" ||
+$as_expr X/"$am_mf" : '.*/\([^/][^/]*\)/*$' \| \
+	 X"$am_mf" : 'X\(//\)$' \| \
+	 X"$am_mf" : 'X\(/\)' \| . 2>/dev/null ||
+$as_echo X/"$am_mf" |
+    sed '/^.*\/\([^/][^/]*\)\/*$/{
 	    s//\1/
 	    q
 	  }
-	  /^X\(\/\/\)[^/].*/{
+	  /^X\/\(\/\/\)$/{
 	    s//\1/
 	    q
 	  }
-	  /^X\(\/\/\)$/{
-	    s//\1/
-	    q
-	  }
-	  /^X\(\/\).*/{
+	  /^X\/\(\/\).*/{
 	    s//\1/
 	    q
 	  }
 	  s/.*/./; q'`
-      as_dir=$dirpart/$fdir; as_fn_mkdir_p
-      # echo "creating $dirpart/$file"
-      echo '# dummy' > "$dirpart/$file"
-    done
+    { echo "$as_me:$LINENO: cd "$am_dirpart" \
+      && sed -e '/# am--include-marker/d' "$am_filepart" \
+        | $MAKE -f - am--depfiles" >&5
+   (cd "$am_dirpart" \
+      && sed -e '/# am--include-marker/d' "$am_filepart" \
+        | $MAKE -f - am--depfiles) >&5 2>&5
+   ac_status=$?
+   echo "$as_me:$LINENO: \$? = $ac_status" >&5
+   (exit $ac_status); } || am_rc=$?
   done
+  if test $am_rc -ne 0; then
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "Something went wrong bootstrapping makefile fragments
+    for automatic dependency tracking.  Try re-running configure with the
+    '--disable-dependency-tracking' option to at least be able to build
+    the package (albeit without support for automatic dependency tracking).
+See \`config.log' for more details" "$LINENO" 5; }
+  fi
+  { am_dirpart=; unset am_dirpart;}
+  { am_filepart=; unset am_filepart;}
+  { am_mf=; unset am_mf;}
+  { am_rc=; unset am_rc;}
+  rm -f conftest-deps.mk
 }
  ;;
     "libtool":C)
