@@ -1,13 +1,12 @@
 [submodule "libffi"]
 	path = libffi
-	url = git://github.com/SaurikIT/libffi.git
+	url = https://github.com/enyaxu/libffi.git
 [submodule "readline"]
 	path = readline
 	url = git://git.savannah.gnu.org/readline.git
-	ignore = dirty
 [submodule "libuv"]
 	path = libuv
-	url = https://github.com/joyent/libuv.git
+	url = https://github.com/enyaxu/libuv.git
 [submodule "node"]
 	path = node
 	url = https://github.com/joyent/node.git
