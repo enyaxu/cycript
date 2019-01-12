@@ -152,33 +152,33 @@ build.osx-$(1)/libcycript.jar: build-osx-$(1)
 	@
 endef
 
-$(foreach arch,i386 x86_64,$(eval $(call build_osx,$(arch))))
+$(foreach arch,x86_64,$(eval $(call build_osx,$(arch))))
 
 define build_ios
 $(call build_any,ios,$(1))
 endef
 
-$(foreach arch,armv6 armv7 armv7s arm64,$(eval $(call build_ios,$(arch))))
+#$(foreach arch,armv6 armv7 armv7s arm64,$(eval $(call build_ios,$(arch))))
 
 define build_sim
 $(call build_any,sim,$(1))
 $(call build_lib,sim,$(1))
 endef
 
-$(foreach arch,i386 x86_64,$(eval $(call build_sim,$(arch))))
+#$(foreach arch,i386 x86_64,$(eval $(call build_sim,$(arch))))
 
 define build_arm
 build.ios-$(1)/.libs/cycript: build-ios-$(1)
 	@
 endef
 
-$(foreach arch,armv6 arm64,$(eval $(call build_arm,$(arch))))
+#$(foreach arch,armv6 arm64,$(eval $(call build_arm,$(arch))))
 
 define build_arm
 $(call build_lib,ios,$(1))
 endef
 
-$(foreach arch,armv6 arm64,$(eval $(call build_arm,$(arch))))
+#$(foreach arch,armv6 arm64,$(eval $(call build_arm,$(arch))))
 
 define build_and
 .PHONY: build-and-$(1)
@@ -198,7 +198,7 @@ build.and-$(1)/libcycript.db: build-and-$(1)
 	@
 endef
 
-$(foreach arch,armeabi,$(eval $(call build_and,$(arch))))
+#$(foreach arch,armeabi,$(eval $(call build_and,$(arch))))
 
 clean += $(patsubst %,%.a,$(library))
 $(patsubst %,%.a,$(library)):
@@ -208,7 +208,13 @@ $(patsubst %,%.a,$(library)):
 clean: $(clean)
 	rm -rf cycript Cycript.lib libcycript*.o
 
-Cycript.lib/libcycript.dylib: build.osx-i386/.libs/libcycript.dylib build.osx-x86_64/.libs/libcycript.dylib build.ios-armv6/.libs/libcycript.dylib build.ios-arm64/.libs/libcycript.dylib
+# Cycript.lib/libcycript.dylib: build.osx-i386/.libs/libcycript.dylib build.osx-x86_64/.libs/libcycript.dylib build.ios-armv6/.libs/libcycript.dylib build.ios-arm64/.libs/libcycript.dylib
+# 	@mkdir -p $(dir $@)
+# 	$(lipo) -create -output $@ $^
+# 	install_name_tool -change /System/Library/{,Private}Frameworks/JavaScriptCore.framework/JavaScriptCore $@
+# 	codesign -s $(codesign) $@
+
+Cycript.lib/libcycript.dylib: build.osx-x86_64/.libs/libcycript.dylib
 	@mkdir -p $(dir $@)
 	$(lipo) -create -output $@ $^
 	install_name_tool -change /System/Library/{,Private}Frameworks/JavaScriptCore.framework/JavaScriptCore $@
@@ -235,7 +241,11 @@ Cycript.lib/cycript-pie: build.and-armeabi/cycript-pie
 	install_name_tool -change /System/Library/{,Private}Frameworks/JavaScriptCore.framework/JavaScriptCore $@
 	codesign -s $(codesign) --entitlement cycript-$(word 2,$(subst ., ,$(subst -, ,$*))).xml $@
 
-Cycript.lib/cycript-apl: build.osx-i386/.libs/cycript_ build.osx-x86_64/.libs/cycript_ build.ios-armv6/.libs/cycript_ build.ios-arm64/.libs/cycript_
+# Cycript.lib/cycript-apl: build.osx-i386/.libs/cycript_ build.osx-x86_64/.libs/cycript_ build.ios-armv6/.libs/cycript_ build.ios-arm64/.libs/cycript_
+# 	@mkdir -p $(dir $@)
+# 	$(lipo) -create -output $@ $^
+
+Cycript.lib/cycript-apl: build.osx-x86_64/.libs/cycript_
 	@mkdir -p $(dir $@)
 	$(lipo) -create -output $@ $^
 

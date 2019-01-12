@@ -1,18 +1,19 @@
 #!/bin/bash
-ndk=~/bin/android-ndk
-abi=armeabi
+ndk=${ANDROID_SDK_ROOT}/ndk-bundle
+abi=armeabi-v7a
 ver=4.9
-api=9
+api=16
 bld=darwin-x86_64
 bin=${ndk}/toolchains/arm-linux-androideabi-${ver}/prebuilt/${bld}/bin
 #export PATH=${bin}:$PATH
 flg=()
-flg+=(--sysroot=${ndk}/platforms/android-${api}/arch-arm)
-flg+=(-I${ndk}/sources/cxx-stl/gnu-libstdc++/${ver}/include)
-flg+=(-I${ndk}/sources/cxx-stl/gnu-libstdc++/${ver}/libs/${abi}/include)
+flg+=(-isysroot=${ndk}/platforms/android-${api}/arch-arm)
+flg+=(-I${ndk}/sources/cxx-stl/llvm-libc++/include)
+# flg+=(-I${ndk}/sources/cxx-stl/llvm-libc++/libs/${abi}/include)
 ldf=()
-ldf+=(-L${ndk}/sources/cxx-stl/gnu-libstdc++/${ver}/libs/${abi})
+ldf+=(-L${ndk}/sources/cxx-stl/llvm-libc++/libs/${abi})
 ldf+=(-lgnustl_static)
+ldf+=(-v)
 tgt=arm-linux-androideabi
 cc=${bin}/${tgt}-gcc
 cxx=${bin}/${tgt}-g++
