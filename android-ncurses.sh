@@ -1,8 +1,13 @@
 #!/bin/bash
-. ./android.sh
 rm -rf ncurses.and
 mkdir ncurses.and
 cd ncurses.and
-cfg ../ncurses-5.9/configure --enable-static --disable-shared
-sed -i -e '/^#define HAVE_LOCALE_H 1$/ d;' include/ncurses_cfg.h
-make -j4
+HOST=aarch64-linux-android
+NDK_STANDALONE_TOOLCHAIN=/Volumes/cycript/android-toolchain/bin
+export PATH="$NDK_STANDALONE_TOOLCHAIN/bin:$PATH"
+export CC=$NDK_STANDALONE_TOOLCHAIN/clang
+export CXX=$NDK_STANDALONE_TOOLCHAIN/clang++
+export AR=$NDK_STANDALONE_TOOLCHAIN/$HOST-ar
+export RANLIB=$NDK_STANDALONE_TOOLCHAIN/$HOST-ranlib
+../ncurses-6.0/configure --host="$HOST" --disable-shared --enable-static --without-progs --without-tests
+make

@@ -83,7 +83,7 @@ for arch in  x86_64; do
 done
 
 for arch in  x86_64; do
-    configure "sim-${arch}" iphonesimulator "${arch}" "-mios-simulator-version-min=8.0" \
+    configure "sim-${arch}" iphonesimulator "${arch}" "-mios-simulator-version-min=12.0" \
         true "" "" "-fobjc-abi-version=2 -fobjc-legacy-dispatch" \
         --disable-console
 done
@@ -111,7 +111,7 @@ for arch in arm64; do
     ldf+=" -Wl,-no_dead_strip_inits_and_terms"
 
     if [[ ${arch} == arm64 ]]; then
-        min=7.0
+        min=10.0
     else
         min=2.0
         ldf+=" -Wl,-segalign,4000"

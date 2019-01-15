@@ -158,27 +158,27 @@ define build_ios
 $(call build_any,ios,$(1))
 endef
 
-#$(foreach arch,armv6 armv7 armv7s arm64,$(eval $(call build_ios,$(arch))))
+#$(foreach arch,arm64,$(eval $(call build_ios,$(arch))))
 
 define build_sim
 $(call build_any,sim,$(1))
 $(call build_lib,sim,$(1))
 endef
 
-#$(foreach arch,i386 x86_64,$(eval $(call build_sim,$(arch))))
+#$(foreach arch,x86_64,$(eval $(call build_sim,$(arch))))
 
 define build_arm
 build.ios-$(1)/.libs/cycript: build-ios-$(1)
 	@
 endef
 
-#$(foreach arch,armv6 arm64,$(eval $(call build_arm,$(arch))))
+#$(foreach arch,arm64,$(eval $(call build_arm,$(arch))))
 
 define build_arm
 $(call build_lib,ios,$(1))
 endef
 
-#$(foreach arch,armv6 arm64,$(eval $(call build_arm,$(arch))))
+#$(foreach arch,arm64,$(eval $(call build_arm,$(arch))))
 
 define build_and
 .PHONY: build-and-$(1)
@@ -261,7 +261,7 @@ Cycript.lib/libcycript-sys.dylib:
 	@mkdir -p $(dir $@)
 	ln -sf libcycript.dylib $@
 
-Cycript.lib/libcycript-sim.dylib: build.sim-i386/.libs/libcycript.dylib build.sim-x86_64/.libs/libcycript.dylib
+Cycript.lib/libcycript-sim.dylib: build.sim-x86_64/.libs/libcycript.dylib
 	@mkdir -p $(dir $@)
 	$(lipo) -create -output $@ $^
 	codesign -s $(codesign) $@
@@ -270,10 +270,10 @@ libcycript-%.o: build.%/.libs/libcycript.a $(patsubst %,%.a,$(library)) xcode.ma
 	@mkdir -p $(dir $@)
 	ld -r -arch $$($(lipo) -detailed_info $< | sed -e '/^Non-fat file: / ! d; s/.*: //') -o $@ -all_load -exported_symbols_list xcode.map -x $(filter %.a,$^)
 
-libcycript-ios.o: libcycript-ios-armv6.o libcycript-ios-armv7.o libcycript-ios-armv7s.o libcycript-ios-arm64.o libcycript-sim-i386.o libcycript-sim-x86_64.o
+libcycript-ios.o: libcycript-ios-arm64.o libcycript-sim-x86_64.o
 	$(lipo) -create -output $@ $^
 
-libcycript-osx.o: libcycript-osx-i386.o libcycript-osx-x86_64.o
+libcycript-osx.o: libcycript-osx-x86_64.o
 	$(lipo) -create -output $@ $^
 
 Cycript.%/Cycript.framework/Cycript: libcycript-%.o
